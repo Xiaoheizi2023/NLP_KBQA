@@ -1,0 +1,307 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="zh-CN">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>小冰电影KBQA问答系统</title>-->
+<!--    <link rel="icon" type="image/x-icon" href="../static/ico/image.ico">-->
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+<!--    <style>-->
+<!--        :root {-->
+<!--            &#45;&#45;primary-color: #6495ed;-->
+<!--            &#45;&#45;secondary-color: #f4f4f4;-->
+<!--            &#45;&#45;text-color: #333;-->
+<!--            &#45;&#45;background-color: #fff;-->
+<!--            &#45;&#45;hover-color: #5a88c5;-->
+<!--        }-->
+<!--        body {-->
+<!--            font-family: 'Arial', sans-serif;-->
+<!--            background-color: var(&#45;&#45;secondary-color);-->
+<!--            padding: 20px;-->
+<!--            display: flex;-->
+<!--            justify-content: center;-->
+<!--            align-items: center;-->
+<!--            height: 100vh;-->
+<!--            margin: 0;-->
+<!--            transition: background-color 0.3s;-->
+<!--        }-->
+<!--        #chat-container {-->
+<!--            max-width: 600px;-->
+<!--            width: 100%;-->
+<!--            background-color: var(&#45;&#45;background-color);-->
+<!--            border-radius: 10px;-->
+<!--            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);-->
+<!--            padding: 20px;-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--        }-->
+<!--        #chat-messages {-->
+<!--            flex-grow: 1;-->
+<!--            overflow-y: auto;-->
+<!--            padding: 10px;-->
+<!--            margin-bottom: 10px;-->
+<!--            border: 1px solid #ddd;-->
+<!--            border-radius: 5px;-->
+<!--            height: 400px;-->
+<!--        }-->
+<!--        .message {-->
+<!--            padding: 10px;-->
+<!--            margin-bottom: 10px;-->
+<!--            border-radius: 5px;-->
+<!--            max-width: 70%;-->
+<!--            clear: both;-->
+<!--            word-wrap: break-word;-->
+<!--        }-->
+<!--        .user-message {-->
+<!--            background-color: #b2e2b2;-->
+<!--            float: right;-->
+<!--            margin-right: 10px;-->
+<!--            border-bottom-left-radius: 0;-->
+<!--        }-->
+<!--        .system-message {-->
+<!--            background-color: #e7e7e7;-->
+<!--            float: left;-->
+<!--            margin-left: 10px;-->
+<!--            border-bottom-right-radius: 0;-->
+<!--        }-->
+<!--        #question-input {-->
+<!--            width: 100%;-->
+<!--            padding: 10px;-->
+<!--            margin-bottom: 10px;-->
+<!--            border: 1px solid #ddd;-->
+<!--            border-radius: 5px;-->
+<!--            transition: border-color 0.3s;-->
+<!--            box-sizing: border-box;-->
+<!--        }-->
+<!--        #question-input:focus {-->
+<!--            border-color: var(&#45;&#45;primary-color);-->
+<!--        }-->
+<!--        #send-button {-->
+<!--            width: 100%;-->
+<!--            padding: 10px;-->
+<!--            border: none;-->
+<!--            border-radius: 5px;-->
+<!--            background-color: var(&#45;&#45;primary-color);-->
+<!--            color: var(&#45;&#45;background-color);-->
+<!--            cursor: pointer;-->
+<!--            transition: background-color 0.3s;-->
+<!--        }-->
+<!--        #send-button:hover {-->
+<!--            background-color: var(&#45;&#45;hover-color);-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <div id="chat-container">-->
+<!--        <div id="chat-messages">-->
+<!--            <div class="message system-message">欢迎来到小冰KBQA问答！请输入您的问题。</div>-->
+<!--        </div>-->
+<!--        <input type="text" id="question-input" placeholder="请输入问题...">-->
+<!--        <button id="send-button">发送</button>-->
+<!--    </div>-->
+
+<!--    <script>-->
+<!--    $(document).ready(function() {-->
+<!--        $('#send-button').click(sendMessage);-->
+<!--        $('#question-input').keypress(function(e) {-->
+<!--            if (e.which == 13) {-->
+<!--                sendMessage();-->
+<!--                return false;-->
+<!--            }-->
+<!--        });-->
+
+<!--        function sendMessage() {-->
+<!--            const question = $('#question-input').val().trim();-->
+<!--            if (question === '') return;-->
+
+<!--            $('#chat-messages').append($('<div class="message user-message"></div>').text(question));-->
+<!--            $('#question-input').val('');-->
+
+<!--            $.ajax({-->
+<!--                type: 'POST',-->
+<!--                url: '/chat',-->
+<!--                data: {question: question},-->
+<!--                success: function(response) {-->
+<!--                    let answer = response.answer;-->
+<!--                    if (answer) {-->
+<!--                        answer = answer.replace(/^小冰：/, '');-->
+<!--                        $('#chat-messages').append($('<div class="message system-message"></div>').text(answer));-->
+<!--                    } else {-->
+<!--                        $('#chat-messages').append($('<div class="message system-message">无法获取答案，请稍后再试。</div>'));-->
+<!--                    }-->
+<!--                    scrollToBottom();-->
+<!--                },-->
+<!--                error: function() {-->
+<!--                    $('#chat-messages').append($('<div class="message system-message">请检查网络连接以及Key是否有效qwq</div>'));-->
+<!--                    scrollToBottom();-->
+<!--                }-->
+<!--            });-->
+<!--        }-->
+
+<!--        function scrollToBottom() {-->
+<!--            var chatMessages = $('#chat-messages');-->
+<!--            chatMessages.scrollTop(chatMessages[0].scrollHeight);-->
+<!--        }-->
+<!--    });-->
+<!--    </script>-->
+<!--</body>-->
+<!--</html>-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小冰电影KBQA问答系统</title>
+    <link rel="icon" type="image/x-icon" href="../static/ico/image.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #6495ed;
+            --secondary-color: #f4f4f4;
+            --text-color: #333;
+            --background-color: #fff;
+            --hover-color: #5a88c5;
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--secondary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+        #chat-container {
+            max-width: 600px;
+            width: 90%;
+            height: 90vh;
+            background-color: var(--background-color);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        #chat-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .message {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            max-width: 70%;
+            clear: both;
+            word-wrap: break-word;
+        }
+        .user-message {
+            background-color: #b2e2b2;
+            float: right;
+            margin-right: 10px;
+            border-bottom-left-radius: 0;
+        }
+        .system-message {
+            background-color: #e7e7e7;
+            float: left;
+            margin-left: 10px;
+            border-bottom-right-radius: 0;
+        }
+        #question-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+        #question-input:focus {
+            border-color: var(--primary-color);
+        }
+        #send-button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--primary-color);
+            color: var(--background-color);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #send-button:hover {
+            background-color: var(--hover-color);
+        }
+        @media (max-width: 600px) {
+            #chat-container {
+                width: 95%;
+                height: 95vh;
+            }
+            .message {
+                max-width: 85%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="chat-messages">
+            <div class="message system-message">欢迎来到小冰KBQA问答！请输入您的问题。</div>
+        </div>
+        <input type="text" id="question-input" placeholder="请输入问题...">
+        <button id="send-button">发送</button>
+    </div>
+
+    <script>
+    $(document).ready(function() {
+        $('#send-button').click(sendMessage);
+        $('#question-input').keypress(function(e) {
+            if (e.which == 13) {
+                sendMessage();
+                return false;
+            }
+        });
+
+        function sendMessage() {
+            const question = $('#question-input').val().trim();
+            if (question === '') return;
+
+            $('#chat-messages').append($('<div class="message user-message"></div>').text(question));
+            $('#question-input').val('');
+
+            $.ajax({
+                type: 'POST',
+                url: '/chat',
+                data: {question: question},
+                success: function(response) {
+                    let answer = response.answer;
+                    if (answer) {
+                        answer = answer.replace(/^小冰：/, '');
+                        $('#chat-messages').append($('<div class="message system-message"></div>').text(answer));
+                    } else {
+                        $('#chat-messages').append($('<div class="message system-message">无法获取答案，请稍后再试。</div>'));
+                    }
+                    scrollToBottom();
+                },
+                error: function() {
+                    $('#chat-messages').append($('<div class="message system-message">请检查网络连接以及Key是否有效qwq</div>'));
+                    scrollToBottom();
+                }
+            });
+        }
+
+        function scrollToBottom() {
+            var chatMessages = $('#chat-messages');
+            chatMessages.scrollTop(chatMessages[0].scrollHeight);
+        }
+    });
+    </script>
+</body>
+</html>
