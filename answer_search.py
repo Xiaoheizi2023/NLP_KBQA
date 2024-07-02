@@ -1,7 +1,7 @@
 from py2neo import Graph
 from zhipuai import ZhipuAI
 # 此处api_key到智谱开放平台自行获取，新用户赠送现时一个月500万tokens，地址：https://open.bigmodel.cn/
-client = ZhipuAI(api_key="")
+client = ZhipuAI(api_key="填写你获取的api_key")
 
 def get_chatglm_response(prompt):
     response = client.chat.completions.create(

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!--<!DOCTYPE html>-->
 <!--<html lang="zh-CN">-->
 <!--<head>-->
@@ -146,6 +147,8 @@
 <!--    </script>-->
 <!--</body>-->
 <!--</html>-->
+=======
+>>>>>>> 5f0c44e89cc5a5507e55313b211515b24c3e252d
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -160,25 +163,42 @@
             --secondary-color: #f4f4f4;
             --text-color: #333;
             --background-color: #fff;
+<<<<<<< HEAD
             --hover-color: #5a88c5;
         }
         html, body {
             height: 100%;
             margin: 0;
             padding: 0;
+=======
+            --hover-color: #5a88c5; /* 稍微深一些的颜色 */
+>>>>>>> 5f0c44e89cc5a5507e55313b211515b24c3e252d
         }
         body {
             font-family: 'Arial', sans-serif;
             background-color: var(--secondary-color);
+<<<<<<< HEAD
             display: flex;
             justify-content: center;
             align-items: center;
+=======
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+>>>>>>> 5f0c44e89cc5a5507e55313b211515b24c3e252d
             transition: background-color 0.3s;
         }
         #chat-container {
             max-width: 600px;
+<<<<<<< HEAD
             width: 90%;
             height: 90vh;
+=======
+            width: 100%;
+>>>>>>> 5f0c44e89cc5a5507e55313b211515b24c3e252d
             background-color: var(--background-color);
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -221,8 +241,14 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             transition: border-color 0.3s;
+<<<<<<< HEAD
             box-sizing: border-box;
         }
+=======
+            box-sizing: border-box; /* 确保边框和内边距不会增加元素的宽度 */
+        }
+
+>>>>>>> 5f0c44e89cc5a5507e55313b211515b24c3e252d
         #question-input:focus {
             border-color: var(--primary-color);
         }
@@ -239,6 +265,7 @@
         #send-button:hover {
             background-color: var(--hover-color);
         }
+<<<<<<< HEAD
         @media (max-width: 600px) {
             #chat-container {
                 width: 95%;
@@ -248,11 +275,17 @@
                 max-width: 85%;
             }
         }
+=======
+>>>>>>> 5f0c44e89cc5a5507e55313b211515b24c3e252d
     </style>
 </head>
 <body>
     <div id="chat-container">
         <div id="chat-messages">
+<<<<<<< HEAD
+=======
+            <!-- Chat messages will be displayed here -->
+>>>>>>> 5f0c44e89cc5a5507e55313b211515b24c3e252d
             <div class="message system-message">欢迎来到小冰KBQA问答！请输入您的问题。</div>
         </div>
         <input type="text" id="question-input" placeholder="请输入问题...">
@@ -260,6 +293,7 @@
     </div>
 
     <script>
+<<<<<<< HEAD
     $(document).ready(function() {
         $('#send-button').click(sendMessage);
         $('#question-input').keypress(function(e) {
@@ -305,3 +339,35 @@
     </script>
 </body>
 </html>
+=======
+
+        $(document).ready(function() {
+            $('#send-button').click(function() {
+                const question = $('#question-input').val();
+                if (question.trim() === '') return;
+
+                $('#chat-messages').append($('<div class="message user-message">' + question + '</div>'));
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/chat',
+                    data: {question: question},
+                    success: function(response) {
+                        // 检查 response 是否包含 answer 属性
+                        if (response && response.answer) {
+                            $('#chat-messages').append($('<div class="message system-message">' + response.answer + '</div>'));
+                        } else {
+                            $('#chat-messages').append($('<div class="message system-message">无法获取答案，请稍后再试。</div>'));
+                        }
+                        $('#question-input').val(''); // 清除输入框内容
+                    },
+                    error: function() {
+                        $('#chat-messages').append($('<div class="message system-message">请求失败，请稍后再试。</div>'));
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+>>>>>>> 5f0c44e89cc5a5507e55313b211515b24c3e252d
