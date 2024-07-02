@@ -22,20 +22,17 @@
 <div align=center><img  src="https://github.com/Xiaoheizi2023/NLP_KBQA/blob/master/images/成果展示图4.png"/></div>
 <p align="center">图4</p>
 
-<div align=center><img  src="https://github.com/Xiaoheizi2023/NLP_KBQA/blob/master/images/成果展示图5.png"/></div>
-<p align="center">图5</p>
-
 # KBQA问答机器人架构图
 <div align=center><img  src="https://github.com/Xiaoheizi2023/NLP_KBQA/blob/master/images/KBQA问答机器人架构图.png"/></div>
-<p align="center">图6</p>
+<p align="center">图5</p>
 
 # KBQA问答机器人的项目结构图
 <div align=center><img  src="https://github.com/Xiaoheizi2023/NLP_KBQA/blob/master/images/KBQA问答机器人的项目结构图.png"/></div>
-<p align="center">图7</p>
+<p align="center">图6</p>
 
 # 部分知识图谱展示
 <div align=center><img  src="https://github.com/Xiaoheizi2023/NLP_KBQA/blob/master/images/部分知识图谱展示图.png"/></div>
-<p align="center">图8</p>
+<p align="center">图7</p>
 
 # 项目结构描述
 ```
