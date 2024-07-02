@@ -12,22 +12,25 @@
             --secondary-color: #f4f4f4;
             --text-color: #333;
             --background-color: #fff;
-            --hover-color: #5a88c5; /* 稍微深一些的颜色 */
+            --hover-color: #5a88c5;
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
         }
         body {
             font-family: 'Arial', sans-serif;
             background-color: var(--secondary-color);
-            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
             transition: background-color 0.3s;
         }
         #chat-container {
             max-width: 600px;
-            width: 100%;
+            width: 90%;
+            height: 90vh;
             background-color: var(--background-color);
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -70,9 +73,8 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             transition: border-color 0.3s;
-            box-sizing: border-box; /* 确保边框和内边距不会增加元素的宽度 */
+            box-sizing: border-box;
         }
-
         #question-input:focus {
             border-color: var(--primary-color);
         }
@@ -89,12 +91,20 @@
         #send-button:hover {
             background-color: var(--hover-color);
         }
+        @media (max-width: 600px) {
+            #chat-container {
+                width: 95%;
+                height: 95vh;
+            }
+            .message {
+                max-width: 85%;
+            }
+        }
     </style>
 </head>
 <body>
     <div id="chat-container">
         <div id="chat-messages">
-            <!-- Chat messages will be displayed here -->
             <div class="message system-message">欢迎来到小冰KBQA问答！请输入您的问题。</div>
         </div>
         <input type="text" id="question-input" placeholder="请输入问题...">
@@ -102,34 +112,48 @@
     </div>
 
     <script>
-
-        $(document).ready(function() {
-            $('#send-button').click(function() {
-                const question = $('#question-input').val();
-                if (question.trim() === '') return;
-
-                $('#chat-messages').append($('<div class="message user-message">' + question + '</div>'));
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/chat',
-                    data: {question: question},
-                    success: function(response) {
-                        // 检查 response 是否包含 answer 属性
-                        if (response && response.answer) {
-                            $('#chat-messages').append($('<div class="message system-message">' + response.answer + '</div>'));
-                        } else {
-                            $('#chat-messages').append($('<div class="message system-message">无法获取答案，请稍后再试。</div>'));
-                        }
-                        $('#question-input').val(''); // 清除输入框内容
-                    },
-                    error: function() {
-                        $('#chat-messages').append($('<div class="message system-message">请求失败，请稍后再试。</div>'));
-                    }
-                });
-            });
+    $(document).ready(function() {
+        $('#send-button').click(sendMessage);
+        $('#question-input').keypress(function(e) {
+            if (e.which == 13) {
+                sendMessage();
+                return false;
+            }
         });
+
+        function sendMessage() {
+            const question = $('#question-input').val().trim();
+            if (question === '') return;
+
+            $('#chat-messages').append($('<div class="message user-message"></div>').text(question));
+            $('#question-input').val('');
+
+            $.ajax({
+                type: 'POST',
+                url: '/chat',
+                data: {question: question},
+                success: function(response) {
+                    let answer = response.answer;
+                    if (answer) {
+                        answer = answer.replace(/^小冰：/, '');
+                        $('#chat-messages').append($('<div class="message system-message"></div>').text(answer));
+                    } else {
+                        $('#chat-messages').append($('<div class="message system-message">无法获取答案，请稍后再试。</div>'));
+                    }
+                    scrollToBottom();
+                },
+                error: function() {
+                    $('#chat-messages').append($('<div class="message system-message">请检查网络连接以及Key是否有效qwq</div>'));
+                    scrollToBottom();
+                }
+            });
+        }
+
+        function scrollToBottom() {
+            var chatMessages = $('#chat-messages');
+            chatMessages.scrollTop(chatMessages[0].scrollHeight);
+        }
+    });
     </script>
 </body>
 </html>
-
